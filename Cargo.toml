@@ -3,5 +3,7 @@ name = "ext-string"
 version = "0.1.0"
 authors = ["Robert Ferentz <RobiFerentz@gmail.com>"]
 edition = "2018"
+repository = "https://github.com/RobiFerentz/ext-string"
+keywords = ["string", "extension", "pad", "reverse"]
 
 [dependencies]

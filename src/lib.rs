@@ -12,11 +12,7 @@ pub trait ExtString {
 
 impl ExtString for String {
     fn reverse(&self) -> String {
-        let mut n = String::with_capacity(self.len());
-        for c in self.chars().rev() {
-            n.push(c);
-        }
-        n
+        self.chars().rev().collect::<String>()
     }
 
     fn pad_left(&self, pad_len: usize, c: char) -> String {
@@ -49,7 +45,7 @@ impl ExtString for String {
 
     fn pad_left_str(&self, pad_len: usize, s: &str) -> String {
         let count = self.chars().count();
-        if pad_len <= count {
+        if pad_len <= count || s.is_empty() {
             return self.clone();
         }
         
@@ -65,7 +61,7 @@ impl ExtString for String {
     
     fn pad_right_str(&self, pad_len: usize, s: &str) -> String {
         let count = self.chars().count();
-        if pad_len <= count {
+        if pad_len <= count || s.is_empty()  {
             return self.clone();
         }
         
@@ -88,6 +84,10 @@ mod tests {
     fn test_reverse() {
         let original = String::from("123456789");
         assert_eq!(original.reverse(), "987654321");
+        let chinese = String::from("汉字漢字");
+        assert_eq!(chinese.reverse(), "字漢字汉");
+        let mangled = String::from("גבאabc1汉字漢字");
+        assert_eq!(mangled.reverse(), "字漢字汉1cbaאבג");
     }
 
     #[test]
