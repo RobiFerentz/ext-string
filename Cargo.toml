@@ -1,6 +1,6 @@
 [package]
 name = "ext-string"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["Robert Ferentz <RobiFerentz@gmail.com>"]
 edition = "2018"
 repository = "https://github.com/RobiFerentz/ext-string"
