@@ -1,4 +1,4 @@
-# ext-string
+# ext-string [![Build Status](https://travis-ci.com/RobiFerentz/ext-string.svg?branch=master)](https://travis-ci.com/RobiFerentz/ext-string)
 
 This is an attempt to bring in string functionality from other known languages and well known libraries to Rust String struct.
 

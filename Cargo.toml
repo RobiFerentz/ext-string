@@ -10,4 +10,7 @@ maintenance = { status = "experimental" }
 license = "MIT"
 readme="README.MD"
 
+[badges]
+travis-ci = { repository = "RobiFerentz/ext-string", branch = "master" }
+
 [dependencies]
