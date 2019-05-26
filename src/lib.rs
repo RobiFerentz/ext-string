@@ -10,6 +10,8 @@ pub trait ExtString {
     fn pad_right_str(&self, pad_len: usize, s: &str) -> String;
     
     fn is_numeric(&self) -> bool;
+    
+    fn is_alphabetic(&self) -> bool;
 }
 
 impl ExtString for String {
@@ -86,6 +88,16 @@ impl ExtString for String {
         }
         true  
     }
+    
+    fn is_alphabetic(&self) -> bool {
+      
+        for c in self.chars() {
+            if !c.is_alphabetic() {
+                return false
+            }
+        }
+        true  
+    }
 }
 
 #[cfg(test)]
@@ -140,5 +152,13 @@ mod tests {
         assert!(String::from("000100").is_numeric());
         assert!(!String::from("123v56").is_numeric());
         assert!(!String::from("-123v56").is_numeric());
+    }
+    
+    #[test]
+    fn test_is_alphabetic() {
+        assert!(String::from("abcאבג").is_alphabetic());
+        assert!(String::from("literal").is_alphabetic());
+        assert!(!String::from("v1234").is_alphabetic());
+        assert!(!String::from("6v7777").is_alphabetic());
     }
 }
