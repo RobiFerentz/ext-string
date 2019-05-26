@@ -5,6 +5,7 @@ authors = ["Robert Ferentz <RobiFerentz@gmail.com>"]
 edition = "2018"
 repository = "https://github.com/RobiFerentz/ext-string"
 keywords = ["string", "extension", "pad", "reverse"]
+description = "An attempt to extend rust String struct with functionality from other programming languages"
 maintenance = { status = "experimental" }
 license = "MIT"
 
