@@ -8,6 +8,8 @@ pub trait ExtString {
     fn pad_left_str(&self, pad_len: usize, s: &str) -> String;
 
     fn pad_right_str(&self, pad_len: usize, s: &str) -> String;
+    
+    fn is_numeric(&self) -> bool;
 }
 
 impl ExtString for String {
@@ -74,6 +76,16 @@ impl ExtString for String {
         }
         pad 
     }
+    
+    fn is_numeric(&self) -> bool {
+      
+        for c in self.chars() {
+            if !c.is_numeric() {
+                return false
+            }
+        }
+        true  
+    }
 }
 
 #[cfg(test)]
@@ -120,5 +132,13 @@ mod tests {
         let padding = "qwerty";
         assert_eq!("12345qwerty", String::from(s).pad_right_str(11, padding));
         assert_eq!("12345qwertyqwe", String::from(s).pad_right_str(14, padding));
+    }
+    
+    #[test]
+    fn test_is_numeric() {
+        assert!(String::from("123456").is_numeric());
+        assert!(String::from("000100").is_numeric());
+        assert!(!String::from("123v56").is_numeric());
+        assert!(!String::from("-123v56").is_numeric());
     }
 }
