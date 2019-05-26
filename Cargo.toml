@@ -5,5 +5,7 @@ authors = ["Robert Ferentz <RobiFerentz@gmail.com>"]
 edition = "2018"
 repository = "https://github.com/RobiFerentz/ext-string"
 keywords = ["string", "extension", "pad", "reverse"]
+maintenance = { status = "experimental" }
+license = "MIT"
 
 [dependencies]
