@@ -1,6 +1,6 @@
 [package]
 name = "ext-string"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Robert Ferentz <RobiFerentz@gmail.com>"]
 edition = "2018"
 repository = "https://github.com/RobiFerentz/ext-string"
@@ -8,5 +8,6 @@ keywords = ["string", "extension", "pad", "reverse"]
 description = "An attempt to extend rust String struct with functionality from other programming languages"
 maintenance = { status = "experimental" }
 license = "MIT"
+readme="README.MD"
 
 [dependencies]
