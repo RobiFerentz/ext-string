@@ -1,6 +1,5 @@
 //! ExtString is an attempt to bring string functions from other programming languages to the Rust std String struct
 
-
 /// The trait that adds functionality to the String struct.
 pub trait ExtString {
     /// Reverses order of characters
@@ -22,6 +21,8 @@ pub trait ExtString {
     fn is_numeric(&self) -> bool;
     /// Checks that all characters in a string are alphabetic characters.
     fn is_alphabetic(&self) -> bool;
+    /// Swaps upper case characters to lower case and vice versa.
+    fn swap_case(&self) -> String;
 }
 
 impl ExtString for String {
@@ -67,53 +68,58 @@ impl ExtString for String {
         if pad_len <= count || s.is_empty() {
             return self.clone();
         }
-        
+
         let repeat = pad_len - count;
         let repeat_len = s.chars().count();
         let mut pad = String::new();
-        for index in 0..repeat {    
+        for index in 0..repeat {
             pad.push(s.chars().nth(index % repeat_len).unwrap());
         }
         pad.push_str(self);
-        pad 
+        pad
     }
-    
+
     fn pad_right_str(&self, pad_len: usize, s: &str) -> String {
         let count = self.chars().count();
-        if pad_len <= count || s.is_empty()  {
+        if pad_len <= count || s.is_empty() {
             return self.clone();
         }
-        
+
         let repeat = pad_len - count;
         let repeat_len = s.chars().count();
         let mut pad = String::new();
         pad.push_str(self);
-        for index in 0..repeat {    
+        for index in 0..repeat {
             pad.push(s.chars().nth(index % repeat_len).unwrap());
         }
-        pad 
+        pad
     }
-    
+
     /// Checks that all characters in a string are numeric characters.
     fn is_numeric(&self) -> bool {
-      
-        for c in self.chars() {
-            if !c.is_numeric() {
-                return false
-            }
-        }
-        true  
+        let f = |c: char| c.is_numeric();
+        (!self.is_empty()) && self.chars().all(f)
     }
-    
+
     /// Checks that all characters in a string are alphabetic characters.
     fn is_alphabetic(&self) -> bool {
-      
+        let f = |c: char| c.is_alphabetic();
+        (!self.is_empty()) && self.chars().all(f)
+    }
+    
+    fn swap_case(&self) -> String {
+        let mut s = String::with_capacity(self.capacity());
+        
         for c in self.chars() {
-            if !c.is_alphabetic() {
-                return false
+            if c.is_lowercase() {
+                s.push_str(c.to_uppercase().collect::<String>().as_str());
+            } else if c.is_uppercase() {
+                s.push_str(c.to_lowercase().collect::<String>().as_str());
+            } else {
+                s.push(c);
             }
-        }
-        true  
+        }     
+        s
     }
 }
 
@@ -146,7 +152,7 @@ mod tests {
         assert_eq!("12345", String::from(s).pad_right(3, space));
         assert_eq!("12345     ", String::from(s).pad_right(10, space));
     }
-    
+
     #[test]
     fn test_pad_left_str() {
         let s = "12345";
@@ -154,7 +160,7 @@ mod tests {
         assert_eq!("qwerty12345", String::from(s).pad_left_str(11, padding));
         assert_eq!("qwertyqwe12345", String::from(s).pad_left_str(14, padding));
     }
-    
+
     #[test]
     fn test_pad_right_str() {
         let s = "12345";
@@ -162,7 +168,7 @@ mod tests {
         assert_eq!("12345qwerty", String::from(s).pad_right_str(11, padding));
         assert_eq!("12345qwertyqwe", String::from(s).pad_right_str(14, padding));
     }
-    
+
     #[test]
     fn test_is_numeric() {
         assert!(String::from("123456").is_numeric());
@@ -170,12 +176,25 @@ mod tests {
         assert!(!String::from("123v56").is_numeric());
         assert!(!String::from("-123v56").is_numeric());
     }
-    
+
     #[test]
     fn test_is_alphabetic() {
         assert!(String::from("abcאבג").is_alphabetic());
         assert!(String::from("literal").is_alphabetic());
         assert!(!String::from("v1234").is_alphabetic());
         assert!(!String::from("6v7777").is_alphabetic());
+    }
+    
+    #[test]
+    fn test_is_swap_case() {
+        let s1 = String::from("One Two Three");
+        assert_eq!("oNE tWO tHREE", s1.swap_case());
+        
+        let s2 = String::from("Y SO SERIOUS???");
+        assert_eq!("y so serious???", s2.swap_case());
+        
+        let s3 = String::from("משהו בעברית");
+        assert_eq!("משהו בעברית", s3.swap_case());
+          
     }
 }
