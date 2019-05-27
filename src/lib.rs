@@ -1,24 +1,37 @@
+//! ExtString is an attempt to bring string functions from other programming languages to the Rust std String struct
+
+
+/// The trait that adds functionality to the String struct.
 pub trait ExtString {
+    /// Reverses order of characters
     fn reverse(&self) -> String;
 
+    /// Pads the left side of a string by repeating the same character until 'pad_len' is reached.
+    /// If pad_len is shorter or equal to the character length, a simple cloned string will be returned.
     fn pad_left(&self, pad_len: usize, c: char) -> String;
-
+    /// Pads the right side of a string by repeating the same character until 'pad_len' is reached.
+    /// If pad_len is shorter or equal to the character length, a simple cloned string will be returned.
     fn pad_right(&self, pad_len: usize, c: char) -> String;
-
+    /// Pads the left side of a string by repeating the same string slice until 'pad_len' is reached.
+    /// If pad_len is shorter or equal to the character length, a simple cloned string will be returned.
     fn pad_left_str(&self, pad_len: usize, s: &str) -> String;
-
+    /// Pads the right side of a string by repeating the same string slice until 'pad_len' is reached.
+    /// If pad_len is shorter or equal to the character length, a simple cloned string will be returned.
     fn pad_right_str(&self, pad_len: usize, s: &str) -> String;
-    
+    /// Checks that all characters in a string are numeric characters.
     fn is_numeric(&self) -> bool;
-    
+    /// Checks that all characters in a string are alphabetic characters.
     fn is_alphabetic(&self) -> bool;
 }
 
 impl ExtString for String {
+    /// Reverses order of characters
     fn reverse(&self) -> String {
         self.chars().rev().collect::<String>()
     }
 
+    /// Pads the left side of a string by repeating the same character until 'pad_len' is reached.
+    /// If pad_len is shorter or equal to the character length, a simple cloned string will be returned.
     fn pad_left(&self, pad_len: usize, c: char) -> String {
         let count = self.chars().count();
         if pad_len <= count {
@@ -33,6 +46,8 @@ impl ExtString for String {
         pad
     }
 
+    /// Pads the right side of a string by repeating the same character until 'pad_len' is reached.
+    /// If pad_len is shorter or equal to the character length, a simple cloned string will be returned.
     fn pad_right(&self, pad_len: usize, c: char) -> String {
         let count = self.chars().count();
         if pad_len <= count {
@@ -79,6 +94,7 @@ impl ExtString for String {
         pad 
     }
     
+    /// Checks that all characters in a string are numeric characters.
     fn is_numeric(&self) -> bool {
       
         for c in self.chars() {
@@ -89,6 +105,7 @@ impl ExtString for String {
         true  
     }
     
+    /// Checks that all characters in a string are alphabetic characters.
     fn is_alphabetic(&self) -> bool {
       
         for c in self.chars() {
