@@ -14,3 +14,4 @@ readme="README.MD"
 travis-ci = { repository = "RobiFerentz/ext-string", branch = "master" }
 
 [dependencies]
+unicode-segmentation = "1.6.0" 

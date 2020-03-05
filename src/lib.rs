@@ -1,5 +1,7 @@
 //! ExtString is an attempt to bring string functions from other programming languages to the Rust std String struct
+extern crate unicode_segmentation;
 
+use unicode_segmentation::UnicodeSegmentation;
 /// The trait that adds functionality to the String struct.
 pub trait ExtString {
     /// Reverses order of characters
@@ -28,7 +30,10 @@ pub trait ExtString {
 impl ExtString for String {
     /// Reverses order of characters
     fn reverse(&self) -> String {
-        self.chars().rev().collect::<String>()
+        let mut g: Vec<&str> =
+            UnicodeSegmentation::graphemes(self.as_str(), true).collect::<Vec<&str>>();
+        g.reverse();
+        g.join("")
     }
 
     /// Pads the left side of a string by repeating the same character until 'pad_len' is reached.
@@ -106,10 +111,9 @@ impl ExtString for String {
         let f = |c: char| c.is_alphabetic();
         (!self.is_empty()) && self.chars().all(f)
     }
-    
+
     fn swap_case(&self) -> String {
         let mut s = String::with_capacity(self.capacity());
-        
         for c in self.chars() {
             if c.is_lowercase() {
                 s.push_str(c.to_uppercase().collect::<String>().as_str());
@@ -118,7 +122,7 @@ impl ExtString for String {
             } else {
                 s.push(c);
             }
-        }     
+        }
         s
     }
 }
@@ -135,6 +139,8 @@ mod tests {
         assert_eq!(chinese.reverse(), "字漢字汉");
         let mangled = String::from("גבאabc1汉字漢字");
         assert_eq!(mangled.reverse(), "字漢字汉1cbaאבג");
+        let weird = String::from("नमस्ते्");
+        assert_eq!(weird.reverse(), "ते्स्मन");
     }
 
     #[test]
@@ -184,17 +190,16 @@ mod tests {
         assert!(!String::from("v1234").is_alphabetic());
         assert!(!String::from("6v7777").is_alphabetic());
     }
-    
+
     #[test]
     fn test_is_swap_case() {
         let s1 = String::from("One Two Three");
         assert_eq!("oNE tWO tHREE", s1.swap_case());
-        
+
         let s2 = String::from("Y SO SERIOUS???");
         assert_eq!("y so serious???", s2.swap_case());
-        
+
         let s3 = String::from("משהו בעברית");
         assert_eq!("משהו בעברית", s3.swap_case());
-          
     }
 }
