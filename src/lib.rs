@@ -23,6 +23,8 @@ pub trait ExtString {
     fn is_numeric(&self) -> bool;
     /// Checks that all characters in a string are alphabetic characters.
     fn is_alphabetic(&self) -> bool;
+    /// Checks that all characters in a string are either numeric or alphabetic.
+    fn is_alphanumeric(&self) -> bool;
     /// Swaps upper case characters to lower case and vice versa.
     fn swap_case(&self) -> String;
 }
@@ -102,13 +104,19 @@ impl ExtString for String {
 
     /// Checks that all characters in a string are numeric characters.
     fn is_numeric(&self) -> bool {
-        let f = |c: char| c.is_numeric();
+        let f = |c: char| c.is_numeric();        
         (!self.is_empty()) && self.chars().all(f)
     }
 
     /// Checks that all characters in a string are alphabetic characters.
     fn is_alphabetic(&self) -> bool {
         let f = |c: char| c.is_alphabetic();
+        (!self.is_empty()) && self.chars().all(f)
+    }
+
+    // Checks that all characters in a string are either numeric or alphabetic.
+    fn is_alphanumeric(&self) -> bool {
+        let f = |c: char| c.is_alphanumeric();
         (!self.is_empty()) && self.chars().all(f)
     }
 
@@ -189,6 +197,14 @@ mod tests {
         assert!(String::from("literal").is_alphabetic());
         assert!(!String::from("v1234").is_alphabetic());
         assert!(!String::from("6v7777").is_alphabetic());
+    }
+
+    #[test]
+    fn test_is_alphanumeric() {
+        assert!(String::from("ab123cאבג").is_alphanumeric());
+        assert!(String::from("5yu32bliteral").is_alphanumeric());
+        assert!(!String::from("!@567").is_alphanumeric());
+        assert!(!String::from("<(*^*)>").is_alphanumeric());
     }
 
     #[test]
